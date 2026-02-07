@@ -2,8 +2,8 @@
 ## Supports builder pattern for accumulating warnings and info messages, state conversion between success/failure,[br]
 ## and merging results from nested operations.[br][br]
 ##
-## Dependencies: ButteredSausageSeverity only. No UI components required.[br]
-## Can be displayed using ButteredSausageDisplay.populate_from_result() if using the display system.
+## Dependencies: SSDMSeverity only. No UI components required.[br]
+## Can be displayed using ButteredSausageDisplay.populate_from_result() if using the Buttered Sausage addon.
 class_name SSDMResult
 extends RefCounted
 
@@ -19,7 +19,7 @@ var details: Array[Dictionary] = []
 ##
 ## @param msg - The success message to display[br]
 ## @param data - Optional data payload to include with the result[br]
-## @return A new ButteredSausage with SUCCESS severity and OK error code[br]
+## @return A new SSDMResult with SUCCESS severity and OK error code[br]
 static func success(msg: String = "", data: Variant = null) -> SSDMResult:
 	return SSDMResult.new(msg, data, OK, SSDMSeverity.Level.SUCCESS)
 
@@ -29,7 +29,7 @@ static func success(msg: String = "", data: Variant = null) -> SSDMResult:
 ## @param msg - The error message to display[br]
 ## @param data - Optional data payload to include with the result[br]
 ## @param p_error - The error code (defaults to FAILED)[br]
-## @return A new ButteredSausage with ERROR severity and specified error code
+## @return A new SSDMResult with ERROR severity and specified error code
 static func failure(msg: String = "", data: Variant = null, p_error: Error = FAILED) -> SSDMResult:
 	return SSDMResult.new(msg, data, p_error, SSDMSeverity.Level.ERROR)
 
@@ -39,7 +39,7 @@ static func failure(msg: String = "", data: Variant = null, p_error: Error = FAI
 ## @param msg - The warning message to display[br]
 ## @param data - Optional data payload to include with the result[br]
 ## @param p_error - The error code (defaults to FAILED)[br]
-## @return A new ButteredSausage with WARNING severity
+## @return A new SSDMResult with WARNING severity
 static func warning(msg: String = "", data: Variant = null, p_error: Error = FAILED) -> SSDMResult:
 	return SSDMResult.new(msg, data, p_error, SSDMSeverity.Level.WARNING)
 
@@ -49,7 +49,7 @@ static func warning(msg: String = "", data: Variant = null, p_error: Error = FAI
 ## @param msg - The info message to display[br]
 ## @param data - Optional data payload to include with the result[br]
 ## @param p_error - The error code (defaults to FAILED)[br]
-## @return A new ButteredSausage with INFO severity
+## @return A new SSDMResult with INFO severity
 static func info(msg: String = "", data: Variant = null, p_error: Error = FAILED) -> SSDMResult:
 	return SSDMResult.new(msg, data, p_error, SSDMSeverity.Level.INFO)
 	
@@ -58,7 +58,7 @@ static func info(msg: String = "", data: Variant = null, p_error: Error = FAILED
 ##
 ## @param msg - The detail message to add[br]
 ## @param sev - The severity level of the detail message[br]
-## @return This ButteredSausage instance for method chaining
+## @return This SSDMResult instance for method chaining
 func with_detail(msg: String, sev: SSDMSeverity.Level) -> SSDMResult:
 	details.append({"message": msg, "severity": sev})
 	return self
@@ -67,7 +67,7 @@ func with_detail(msg: String, sev: SSDMSeverity.Level) -> SSDMResult:
 ## Adds a warning detail message to this result. Supports builder pattern chaining.[br][br]
 ##
 ## @param msg - The warning message to add as a detail[br]
-## @return This ButteredSausage instance for method chaining
+## @return This SSDMResult instance for method chaining
 func with_warning(msg: String) -> SSDMResult:
 	return with_detail(msg, SSDMSeverity.Level.WARNING)
 
@@ -75,7 +75,7 @@ func with_warning(msg: String) -> SSDMResult:
 ## Adds an info detail message to this result. Supports builder pattern chaining.[br][br]
 ##
 ## @param msg - The info message to add as a detail[br]
-## @return This ButteredSausage instance for method chaining
+## @return This SSDMResult instance for method chaining
 func with_info(msg: String) -> SSDMResult:
 	return with_detail(msg, SSDMSeverity.Level.INFO)
 	
@@ -84,7 +84,7 @@ func with_info(msg: String) -> SSDMResult:
 ##
 ## @param msg - The error message to add as a detail[br]
 ## @param err - The error code to set (defaults to FAILED)[br]
-## @return This ButteredSausage instance for method chaining
+## @return This SSDMResult instance for method chaining
 func with_error(msg: String, err: Error = FAILED) -> SSDMResult:
 	error = err
 	return with_detail(msg, SSDMSeverity.Level.ERROR)
@@ -95,7 +95,7 @@ func with_error(msg: String, err: Error = FAILED) -> SSDMResult:
 ##
 ## @param msg - Optional new message (keeps existing if empty)[br]
 ## @param err - The error code to set (defaults to FAILED)[br]
-## @return This ButteredSausage instance for method chaining
+## @return This SSDMResult instance for method chaining
 func to_failure(msg: String = "", err: Error = FAILED) -> SSDMResult:
 	if !msg.is_empty():
 		message = msg
@@ -107,7 +107,7 @@ func to_failure(msg: String = "", err: Error = FAILED) -> SSDMResult:
 ## Converts this result to a success while preserving accumulated details. Updates message if provided.[br][br]
 ##
 ## @param msg - Optional new message (keeps existing if empty)[br]
-## @return This ButteredSausage instance for method chaining
+## @return This SSDMResult instance for method chaining
 func to_success(msg: String = "") -> SSDMResult:
 	if !msg.is_empty():
 		message = msg
@@ -120,7 +120,7 @@ func to_success(msg: String = "") -> SSDMResult:
 ##
 ## @param msg - Optional new message (keeps existing if empty)[br]
 ## @param err - The error code to set (defaults to FAILED)[br]
-## @return This ButteredSausage instance for method chaining
+## @return This SSDMResult instance for method chaining
 func to_warning(msg: String = "", err: Error = FAILED) -> SSDMResult:
 	if !msg.is_empty():
 		message = msg
@@ -133,7 +133,7 @@ func to_warning(msg: String = "", err: Error = FAILED) -> SSDMResult:
 ##
 ## @param msg - Optional new message (keeps existing if empty)[br]
 ## @param err - The error code to set (defaults to FAILED)[br]
-## @return This ButteredSausage instance for method chaining
+## @return This SSDMResult instance for method chaining
 func to_info(msg: String = "", err: Error = FAILED) -> SSDMResult:
 	if !msg.is_empty():
 		message = msg
@@ -146,9 +146,9 @@ func to_info(msg: String = "", err: Error = FAILED) -> SSDMResult:
 ## If takeover_message is true, replaces this result's main properties with the other result's values.[br]
 ## If false, adds the other result's message as a detail and merges all details.[br][br]
 ##
-## @param other - The ButteredSausage to merge from[br]
+## @param other - The SSDMResult to merge from[br]
 ## @param takeover_message - If true, replaces main message/severity/error/data with other's values[br]
-## @return This ButteredSausage instance for method chaining
+## @return This SSDMResult instance for method chaining
 func merge_from(other: SSDMResult, takeover_message: bool = true) -> SSDMResult:
 	if takeover_message:
 		message = other.message
