@@ -96,7 +96,7 @@ else:
 ## Integration with Other Addons
 
 - **Dingus**: Requires Standstill Core. Uses SSDMResult for resource manager operations.
-- **Buttered Sausage**: Optional. Can display SSDMResult objects as animated message panels via `ButteredSausageDisplay.populate_from_result(result)`.
+- **Buttered Sausage**: Requires Standstill Core. Can display SSDMResult objects as animated message panels via `ButteredSausageDisplay.populate_from_result(result)`.
 
 ## License
 
