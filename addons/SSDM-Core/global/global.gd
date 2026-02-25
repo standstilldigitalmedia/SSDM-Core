@@ -58,19 +58,6 @@ enum PositionPreset {
 }
 
 
-enum IconSizeMode {
-	EXPLICIT,   ## Use icon_width/icon_height values
-	NATURAL,    ## Use texture's intrinsic size
-	FILL        ## Expand to fill parent container
-}
-
-
-enum ButtonSizeMode {
-	EXPLICIT,    ## Use button_width/button_height values
-	FIT_CONTENT  ## Expand to fit icon + text + margins
-}
-
-
 enum ClipMode {
 	AUTO,    ## Clips for slide/position animations, not for rotation (default behavior)
 	ALWAYS,  ## Always clip content to bounds during animation
